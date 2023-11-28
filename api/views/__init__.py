@@ -1,0 +1,2 @@
+"""Contain flask app blueprints"""
+

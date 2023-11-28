@@ -1,0 +1,43 @@
+from decouple import config
+from dotenv import find_dotenv, load_dotenv
+
+ENV_FILE = find_dotenv()
+
+if ENV_FILE:
+    load_dotenv(ENV_FILE)
+
+class Config(object):
+    DEBUG = False
+    TESTING = False
+    CSRF_ENABLED = True
+    SECRET_KEY = config("SECRET_KEY", default="guess-me")
+    SESSION_COOKIE_SECURE = True
+    SESSION_COOKIE_SAMESITE = "Lax"
+    REMEMBER_COOKIE_SECURE = True
+    SEND_FILE_MAX_AGE_DEFAULT = 0
+    BCRYPT_LOG_ROUNDS = 13
+    WTF_CSRF_ENABLED = True
+    DEBUG_TB_ENABLED = False
+    DEBUG_TB_INTERCEPT_REDIRECTS = False
+    SECURITY_PASSWORD_SALT = config(
+        "SECURITY_PASSWORD_SALT", default="very-important"
+    )
+
+
+class DevelopmentConfig(Config):
+    DEVELOPMENT = True
+    DEBUG = True
+    WTF_CSRF_ENABLED = False
+    DEBUG_TB_ENABLED = True
+
+
+class TestingConfig(Config):
+    TESTING = True
+    DEBUG = True
+    BCRYPT_LOG_ROUNDS = 4
+    WTF_CSRF_ENABLED = False
+
+
+class ProductionConfig(Config):
+    DEBUG = False
+    DEBUG_TB_ENABLED = False
