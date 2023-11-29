@@ -4,9 +4,11 @@ from flask_cors import CORS
 
 # Database
 from pymongo import MongoClient
+from pymongo.server_api import ServerApi
 from bunnet import init_bunnet
 
 from dotenv import load_dotenv, find_dotenv
+from decouple import config
 
 # Local
 from api.config import DevelopmentConfig
@@ -20,7 +22,13 @@ def init_env():
 
 
 def init_db():
-    client = MongoClient(host="localhost")
+    uri = config("DB_URI")
+
+    if uri:
+        client = MongoClient(uri, server_api=ServerApi("1"))
+    else:
+        client = MongoClient(host="localhost")
+
     init_bunnet(database=client.new, document_models=["api.models.user.User"])
 
 
