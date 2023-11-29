@@ -8,7 +8,7 @@ from pymongo.server_api import ServerApi
 from bunnet import init_bunnet
 
 from dotenv import load_dotenv, find_dotenv
-from decouple import config
+from os import environ as env
 
 # Local
 from api.config import DevelopmentConfig
@@ -22,7 +22,7 @@ def init_env():
 
 
 def init_db():
-    uri = config("DB_URI")
+    uri = env.get("DB_URI")
 
     if uri:
         client = MongoClient(uri, server_api=ServerApi("1"))
