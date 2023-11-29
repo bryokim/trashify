@@ -9,7 +9,7 @@ from bunnet import init_bunnet
 from dotenv import load_dotenv, find_dotenv
 
 # Local
-from .config import DevelopmentConfig
+from api.config import DevelopmentConfig
 
 
 def init_env():
@@ -38,8 +38,8 @@ def create_app():
     # Initialize the monogodb database.
     init_db()
 
-    from .views.auth import auth_view
-    from .views.core import core_view
+    from api.views.auth import auth_view
+    from api.views.core import core_view
 
     app.register_blueprint(auth_view)
     app.register_blueprint(core_view)
