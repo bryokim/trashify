@@ -1,11 +1,14 @@
 from flask import jsonify, request
 from flask_cors import cross_origin
+from os import environ as env
 
 from api.auth import fief_api
 from api.views.auth import auth_view
 from api.models.user import UserHelper
 
 user_helper = UserHelper()
+
+SESSION_COOKIE_NAME = env.get("SESSION_COOKIE_NAME")
 
 
 @auth_view.route("/this-user")
@@ -44,7 +47,7 @@ def login():
     response = jsonify({"id": user.id, "email": user.email})
 
     response.set_cookie(
-        "trashify_user_session",
+        SESSION_COOKIE_NAME,
         access_token_info["access_token"],
         max_age=access_token_info["expires_in"],
     )
