@@ -1,7 +1,7 @@
-from flask import jsonify, request
+from flask import jsonify, request, g
 from flask_cors import cross_origin
 
-from api.auth import fief_api
+from api.auth import fief_api, fief_auth
 from api.views.auth import auth_view
 from api.models.user import UserHelper
 
@@ -29,3 +29,20 @@ def signup():
     response = jsonify({"id": new_user.id, "email": new_user.email})
 
     return response
+
+
+@auth_view.route("/verify-email", methods=["GET", "POST"])
+@cross_origin(supports_credentials=True)
+def verify_email():
+    if request.method == "GET":
+        pass
+
+
+@auth_view.route("/protected")
+@cross_origin(supports_credentials=True)
+@fief_auth.authenticated()
+def protected():
+    print("Got in")
+    print(g.access_token_info)
+
+    return jsonify({"status": "done"})

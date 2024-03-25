@@ -41,7 +41,7 @@ def create_app():
 
     # Allow requests from the frontend. Requests and responses can pass
     # credentials.
-    CORS(app, origins=["http://localhost:8080"], supports_credentials=True)
+    CORS(app, origins=["http://localhost:3000"], supports_credentials=True)
 
     # Initialize the monogodb database.
     init_db()
